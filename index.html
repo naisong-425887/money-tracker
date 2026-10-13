@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#facc15">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Money">
+<title>Money Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--tx:#1f2328;--mut:#6b7280;--line:#e5e7eb;--yel:#facc15;--dk:#2b2b2b;--inc:#0f9488;--exp:#e5484d;--sav:#3b82f6;--inv:#8b5cf6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111315;--card:#1c1f22;--tx:#f1f2f4;--mut:#9aa1ab;--line:#2c3035;--dk:#25282c}}
+:root[data-theme="dark"]{--bg:#111315;--card:#1c1f22;--tx:#f1f2f4;--mut:#9aa1ab;--line:#2c3035;--dk:#25282c}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Noto Sans Lao Looped','PingFang SC','Microsoft YaHei','Noto Sans Lao',system-ui,sans-serif;background:var(--bg);color:var(--tx);display:flex;justify-content:center}
+#app{width:100%;max-width:480px;height:100%;display:flex;flex-direction:column;position:relative;background:var(--bg)}
+header{background:var(--yel);color:#1f2328;padding:14px 16px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700}
+header select{font:inherit;font-weight:700;background:transparent;border:0;color:inherit}
+main{flex:1;overflow-y:auto;padding:14px 14px 90px}
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px}
+.hero{background:var(--dk);color:#fff}.hero small{color:#aab0b8}
+.big{font-size:32px;font-weight:700;color:var(--yel);margin:6px 0 12px;word-break:break-all}
+.row3{display:flex;border-top:1px solid #444;padding-top:10px;gap:6px}
+.row3>div{flex:1;min-width:0}.row3 b{display:block;margin-top:2px;font-size:14px;word-break:break-all}
+h3{margin:0 0 12px;font-size:16px}
+.cats{display:flex;flex-wrap:wrap;row-gap:14px;gap:6px}
+.cat{flex:1 1 30%;font-size:12px;cursor:pointer;border:0;background:none;color:inherit;font-family:inherit;text-align:center}
+.ic{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-size:20px}
+.cat b{display:block;font-size:13px;margin-top:4px}
+.seg{display:flex;background:var(--line);border-radius:10px;padding:3px;margin-bottom:12px}
+.seg button{flex:1;border:0;background:none;padding:7px 2px;border-radius:8px;font:inherit;font-size:13px;color:var(--mut);cursor:pointer}
+.seg button.on{background:var(--card);color:var(--tx);font-weight:700}
+.donut{position:relative;width:200px;height:200px;margin:8px auto}
+.donut .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;color:var(--mut);padding:0 40px;text-align:center}
+.donut .c b{font-size:18px;word-break:break-all}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:12px;color:var(--mut)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border:0}
+.item .ic{margin:0;width:38px;height:38px;font-size:17px;flex:none}
+.item .m{flex:1;min-width:0}.item .m small{color:var(--mut);display:block}
+.item .a{font-weight:700;text-align:right}
+.item button{border:0;background:none;color:var(--mut);font-size:16px;cursor:pointer}
+.empty{text-align:center;color:var(--mut);padding:24px 0}
+nav{position:absolute;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;border:0;background:none;padding:8px 1px 6px;font:inherit;font-size:10.5px;color:var(--mut);cursor:pointer;border-top:3px solid transparent}
+nav button span{display:block;font-size:19px}
+nav button.on{color:var(--tx);font-weight:700;border-top-color:var(--yel)}
+.fab{position:absolute;right:18px;bottom:calc(76px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:50%;border:0;background:var(--yel);font-size:28px;box-shadow:0 4px 12px rgba(0,0,0,.25);cursor:pointer}
+.sheet-bg{position:absolute;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;z-index:5}
+.sheet{background:var(--card);width:100%;max-height:92%;overflow-y:auto;border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px))}
+.lb{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px}
+input,.sheet select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font:inherit;background:var(--bg);color:var(--tx)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{border:1px solid var(--line);background:var(--bg);color:var(--tx);padding:7px 12px;border-radius:20px;font:inherit;font-size:13px;cursor:pointer}
+.chips button.on{background:var(--yel);border-color:var(--yel);color:#1f2328;font-weight:700}
+.save{width:100%;margin-top:16px;padding:13px;border:0;border-radius:12px;background:var(--yel);font:inherit;font-weight:700;color:#1f2328;cursor:pointer}
+.bars{display:flex;align-items:flex-end;gap:8px;height:150px;border-bottom:1px solid var(--line);padding:0 2px}
+.bars>div{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;height:100%}
+.bars i{width:22%;border-radius:3px 3px 0 0;min-height:2px}
+.xl{display:flex;gap:8px;font-size:11px;color:var(--mut);text-align:center;padding:4px 2px}.xl span{flex:1}
+.link{background:none;border:1px solid var(--line);color:var(--tx);padding:11px;border-radius:10px;font:inherit;width:100%;margin-bottom:8px;cursor:pointer;text-align:left}
+.rt{display:flex;align-items:center;gap:8px;margin-top:6px}.rt span{width:70px;font-size:13px}
+.pb{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0}.pb i{display:block;height:100%;background:var(--sav);border-radius:6px}.g{padding:10px 0;border-bottom:1px solid var(--line)}.g:last-child{border:0}.g .h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}.g small{color:var(--mut)}.add{margin:10px 0 0}.gb{border:0;background:none;color:var(--mut);cursor:pointer;font-size:16px}
+</style>
+</head>
+<body>
+<div id="app">
+  <header><span id="ttl"></span><select id="mon"></select></header>
+  <main id="main"></main>
+  <button class="fab" id="fab">+</button>
+  <nav id="nav"></nav>
+</div>
+<script>
+const U={home:['ພາບລວມ','Overview','总览'],inc:['ລາຍຮັບ','Income','收入'],exp:['ລາຍຈ່າຍ','Expense','支出'],sav:['ເກັບອອມ','Savings','储蓄'],inv:['ລົງທຶນ','Invest','投资'],more:['ເພີ່ມເຕີມ','More','更多'],
+bal:['ຍອດຄົງເຫຼືອ','Balance','结余'],si:['ເກັບອອມ+ລົງທຶນ','Saved+Invested','储蓄+投资'],bycat:['ແຍກຕາມໝວດ (ກົດເພື່ອບັນທຶກ)','By category (tap to add)','按类别（点击记账）'],recent:['ລາຍການຫຼ້າສຸດ','Recent','最近记录'],
+empty:['ຍັງບໍ່ມີລາຍການ — ກົດ + ເພື່ອບັນທຶກ','No entries yet — tap + to add','暂无记录，点击 + 添加'],total:['ລວມ','Total','合计'],trend:['ແນວໂນ້ມ 6 ເດືອນ','6-month trend','近6个月趋势'],
+amt:['ຈຳນວນເງິນ','Amount','金额'],cur:['ສະກຸນເງິນ','Currency','币种'],cat:['ໝວດ','Category','类别'],date:['ວັນທີ','Date','日期'],note:['ໝາຍເຫດ','Note','备注'],save:['ບັນທຶກ','Save','保存'],
+lang:['ພາສາ','Language','语言'],dcur:['ສະກຸນເງິນທີ່ສະແດງ','Display currency','显示币种'],rate:['ອັດຕາແລກປ່ຽນ (ຕໍ່ 1 USD)','Exchange rate (per 1 USD)','汇率（每 1 美元）'],
+csv:['⬇ ສົ່ງອອກ CSV','⬇ Export CSV','⬇ 导出 CSV'],clr:['🗑 ລ້າງຂໍ້ມູນທັງໝົດ','🗑 Clear all data','🗑 清除所有数据'],cfm:['ລຶບຂໍ້ມູນທັງໝົດ?','Delete all data?','删除所有数据？'],
+ft:['ຂໍ້ມູນເກັບໃນເບຣາວ໌ເຊີນີ້ເທົ່ານັ້ນ','Data is stored in this browser only','数据仅保存在本浏览器中'],set:['ຕັ້ງຄ່າ','Settings','设置'],goals:['ເປົ້າໝາຍເກັບອອມ','Savings goals','储蓄目标'],gname:['ຊື່ເປົ້າໝາຍ','Goal name','目标名称'],gtar:['ຈຳນວນເປົ້າໝາຍ','Target amount','目标金额'],gadd:['+ ເພີ່ມເປົ້າໝາຍ','+ Add goal','+ 添加目标'],glink:['ເຂົ້າເປົ້າໝາຍ','Toward goal','存入目标'],gnone:['ບໍ່ເລືອກ','None','不选'],gdone:['ສຳເລັດແລ້ວ 🎉','Reached 🎉','已达成 🎉'],port:['ພອດການລົງທຶນ','Portfolio','投资组合'],cost:['ເງິນລົງທຶນ','Invested','投入'],val:['ມູນຄ່າປັດຈຸບັນ','Current value','当前价值'],pl:['ກຳໄລ/ຂາດທຶນ','Gain/Loss','盈亏']};
+const N={salary:['ເງິນເດືອນ','Salary','工资'],biz:['ທຸລະກິດ','Business','生意'],oth:['ອື່ນໆ','Other','其他'],food:['ອາຫານ','Food','餐饮'],trans:['ເດີນທາງ','Transport','交通'],home:['ຄ່າເຮືອນ','Housing','住房'],shop:['ຊື້ເຄື່ອງ','Shopping','购物'],
+emg:['ເງິນສຸກເສີນ','Emergency fund','应急基金'],goal:['ເປົ້າໝາຍ','Goal','目标储蓄'],bank:['ຝາກທະນາຄານ','Bank deposit','银行存款'],stock:['ຮຸ້ນ','Stocks','股票'],gold:['ຄຳ','Gold','黄金'],crypto:['ຄຣິບໂຕ','Crypto','加密货币'],land:['ອະສັງຫາ','Property','房产']};
+const CAT={inc:[['salary','💼','#2dd4bf'],['biz','🏢','#0f9488'],['oth','📦','#5eead4']],
+exp:[['food','🍜','#e5484d'],['trans','🚗','#f59e0b'],['home','🏠','#8b5cf6'],['shop','🛍️','#3b82f6'],['oth','📦','#9ca3af']],
+sav:[['emg','🛟','#60a5fa'],['goal','🎯','#3b82f6'],['bank','🏦','#1d4ed8'],['oth','📦','#93c5fd']],
+inv:[['stock','📈','#a78bfa'],['gold','🪙','#f59e0b'],['crypto','₿','#f97316'],['land','🏘️','#8b5cf6'],['oth','📦','#c4b5fd']]};
+const TY=['inc','exp','sav','inv'],TC={inc:'var(--inc)',exp:'var(--exp)',sav:'var(--sav)',inv:'var(--inv)'};
+const TABS=[['home','◔'],['inc','⬇'],['exp','⬆'],['sav','🏦'],['inv','📈'],['more','⋯']];
+const CUR=['LAK','USD','THB'],SYM={LAK:'₭',USD:'$',THB:'฿'},LOC={lo:'lo-LA',en:'en-US',zh:'zh-CN'};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let tx=ld('tx',[]).map(x=>({cur:'USD',...x}));
+const cfg=ld('cfg',{});
+let goals=ld('goals',[]),vals=ld('vals',{});
+const today=()=>new Date().toISOString().slice(0,10),ym=d=>d.slice(0,7);
+let S={tab:'home',view:'inc',mon:ym(today()),lang:cfg.lang||'lo',cur:cfg.cur||'LAK',rates:cfg.rates||{LAK:21500,THB:35}};
+const saveCfg=()=>sv('cfg',{lang:S.lang,cur:S.cur,rates:S.rates});
+const L=()=>({lo:0,en:1,zh:2}[S.lang]),T=k=>U[k][L()],cn=id=>N[id][L()];
+const R=c=>c==='USD'?1:(+S.rates[c]||1);
+const fmt=(n,c)=>SYM[c]+(c==='LAK'?Math.round(n):Math.round(n*100)/100).toLocaleString('en-US');
+const D=usd=>fmt(usd*R(S.cur),S.cur);
+const usd=x=>x.amt/R(x.cur);
+const catOf=(ty,id)=>CAT[ty].find(c=>c[0]===id)||CAT[ty][CAT[ty].length-1];
+const inMon=()=>tx.filter(x=>ym(x.date)===S.mon);
+const sum=(a,ty)=>a.filter(x=>x.type===ty).reduce((s,x)=>s+usd(x),0);
+const mLabel=(m,o)=>new Date(m+'-01T00:00:00').toLocaleDateString(LOC[S.lang],o||{month:'long',year:'numeric'});
+
+function months(){const set=new Set([ym(today()),S.mon]);tx.forEach(x=>set.add(ym(x.date)));
+  $('#mon').innerHTML=[...set].sort().reverse().map(m=>`<option value="${m}" ${m===S.mon?'selected':''}>${mLabel(m)}</option>`).join('')}
+function donut(ty){
+  const a=inMon().filter(x=>x.type===ty),tot=sum(a,ty),r=80,C=2*Math.PI*r;let off=0,arcs='';
+  CAT[ty].forEach(c=>{const v=sum(a.filter(x=>x.cat===c[0]),ty);if(!v)return;const l=v/tot*C;
+    arcs+=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="${c[2]}" stroke-width="26" stroke-dasharray="${l} ${C-l}" stroke-dashoffset="${-off}" transform="rotate(-90 100 100)"/>`;off+=l});
+  if(!tot)arcs=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="var(--line)" stroke-width="26"/>`;
+  return `<div class="donut"><svg viewBox="0 0 200 200">${arcs}</svg><div class="c">${T(ty)}<b style="color:${TC[ty]}">${D(tot)}</b></div></div>
+  <div class="legend">${CAT[ty].map(c=>`<span><i style="background:${c[2]}"></i>${cn(c[0])}</span>`).join('')}</div>`}
+function row(x,del){const c=catOf(x.type,x.cat);
+  return `<div class="item"><div class="ic" style="background:${c[2]}33">${c[1]}</div><div class="m">${cn(c[0])}${x.note?' · '+esc(x.note):''}<small>${x.date}</small></div><div class="a" style="color:${TC[x.type]}">${x.type==='inc'?'+':x.type==='exp'?'-':''}${fmt(x.amt,x.cur)}</div>${del?`<button data-del="${x.id}">✕</button>`:''}</div>`}
+const sorted=a=>a.sort((x,y)=>y.date.localeCompare(x.date)||y.id-x.id);
+function home(){
+  const a=inMon(),i=sum(a,'inc'),e=sum(a,'exp'),s=sum(a,'sav'),v=sum(a,'inv'),w=S.view;
+  const cats=CAT[w].map(c=>`<button class="cat" data-quick="${c[0]}"><div class="ic" style="background:${c[2]}44">${c[1]}</div>${cn(c[0])}<b>${D(sum(a.filter(x=>x.cat===c[0]),w))}</b></button>`).join('');
+  const ms=[];for(let k=5;k>=0;k--){const d=new Date(+S.mon.slice(0,4),+S.mon.slice(5)-1-k,1);ms.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'))}
+  const data=ms.map(m=>{const b=tx.filter(x=>ym(x.date)===m);return TY.map(t=>sum(b,t))}),mx=Math.max(1,...data.flat());
+  const rec=sorted(a.slice()).slice(0,5);
+  return `<div class="card hero"><small>${T('bal')}</small><div class="big">${D(i-e-s-v)}</div><div class="row3"><div><small>${T('inc')}</small><b>${D(i)}</b></div><div><small>${T('exp')}</small><b>${D(e)}</b></div><div><small>${T('si')}</small><b>${D(s+v)}</b></div></div></div>
+  <div class="card"><div class="seg">${TY.map(t=>`<button data-view="${t}" class="${w===t?'on':''}">${T(t)}</button>`).join('')}</div><h3>${T('bycat')}</h3><div class="cats">${cats}</div>${donut(w)}</div>
+  <div class="card"><h3>${T('trend')}</h3><div class="bars">${data.map(d=>`<div>${d.map((x,k)=>`<i style="height:${x/mx*100}%;background:${TC[TY[k]]}"></i>`).join('')}</div>`).join('')}</div><div class="xl">${ms.map(m=>`<span>${mLabel(m,{month:'short'})}</span>`).join('')}</div>
+  <div class="legend" style="margin-top:8px">${TY.map(t=>`<span><i style="background:${TC[t]}"></i>${T(t)}</span>`).join('')}</div></div>
+  <div class="card"><h3>${T('recent')}</h3>${rec.length?rec.map(x=>row(x)).join(''):`<div class="empty">${T('empty')}</div>`}</div>`}
+function typePage(ty){const a=sorted(inMon().filter(x=>x.type===ty));
+  return `<div class="card hero"><small>${T(ty)} · ${T('total')}</small><div class="big">${D(sum(a,ty))}</div></div>${ty==='sav'?goalsCard():ty==='inv'?portCard():''}<div class="card">${donut(ty)}</div><div class="card">${a.length?a.map(x=>row(x,1)).join(''):`<div class="empty">${T('empty')}</div>`}</div>`}
+const goalSaved=g=>tx.filter(x=>x.type==='sav'&&x.goal===g.id).reduce((s,x)=>s+usd(x),0)*R(g.cur);
+function goalsCard(){return `<div class="card"><h3>${T('goals')}</h3>${goals.map(g=>{const s=goalSaved(g),p=Math.min(100,s/g.target*100);return `<div class="g"><div class="h"><b>${esc(g.name)}</b><span><button class="gb" data-gsave="${g.id}">＋</button><button class="gb" data-gdel="${g.id}">✕</button></span></div><div class="pb"><i style="width:${p}%"></i></div><div class="h"><small>${fmt(s,g.cur)} / ${fmt(g.target,g.cur)}</small><small>${p>=100?T('gdone'):Math.floor(p)+'%'}</small></div></div>`}).join('')}<button class="link add" id="gadd">${T('gadd')}</button></div>`}
+function portCard(){const inv=tx.filter(x=>x.type==='inv');let C=0,V=0;
+ const rows=CAT.inv.map(k=>{const cs=sum(inv.filter(x=>catOf('inv',x.cat)[0]===k[0]),'inv');if(!cs&&vals[k[0]]==null)return'';const v=vals[k[0]]??cs,p=v-cs;C+=cs;V+=v;
+  return `<div class="g"><div class="h"><b>${k[1]} ${cn(k[0])}</b><small>${T('cost')}: ${D(cs)}</small></div><div class="rt"><span style="width:auto">${T('val')}</span><input type="number" inputmode="decimal" data-val="${k[0]}" value="${Math.round(v*R(S.cur)*100)/100}"></div><small style="color:${p>=0?'var(--inc)':'var(--exp)'}">${p>=0?'+':''}${D(p)} (${cs?(p/cs*100).toFixed(1):0}%)</small></div>`}).join('');
+ const P=V-C;
+ return `<div class="card"><h3>${T('port')}</h3>${rows||`<div class="empty">${T('empty')}</div>`}<div class="g"><div class="h"><b>${T('pl')}</b><b style="color:${P>=0?'var(--inc)':'var(--exp)'}">${P>=0?'+':''}${D(P)} (${C?(P/C*100).toFixed(1):0}%)</b></div><small>${T('cost')} ${D(C)} → ${T('val')} ${D(V)}</small></div></div>`}
+function openGoal(){const bg=document.createElement('div');bg.className='sheet-bg';let cu=S.cur;
+ const draw=()=>{const n=$('#gn')?.value||'',t=$('#gt')?.value||'';bg.innerHTML=`<div class="sheet"><h3>${T('gadd')}</h3><span class="lb">${T('gname')}</span><input id="gn" type="text" maxlength="40" value="${esc(n)}"><span class="lb">${T('gtar')}</span><input id="gt" type="number" inputmode="decimal" min="0" value="${esc(t)}"><span class="lb">${T('cur')}</span><div class="chips">${CUR.map(c=>`<button data-cu="${c}" class="${cu===c?'on':''}">${SYM[c]} ${c}</button>`).join('')}</div><button class="save" id="gs">${T('save')}</button></div>`};
+ draw();$('#app').appendChild(bg);
+ bg.onclick=e=>{if(e.target===bg){bg.remove();return}const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.cu){cu=b.dataset.cu;draw()}
+  else if(b.id==='gs'){const n=$('#gn').value.trim(),t=parseFloat($('#gt').value);if(!n||!(t>0))return;goals.push({id:Date.now(),name:n,target:t,cur:cu});sv('goals',goals);bg.remove();render()}}}
+function more(){
+  const ch=(arr,cur,attr,lab)=>`<div class="chips">${arr.map(k=>`<button data-${attr}="${k}" class="${cur===k?'on':''}">${lab(k)}</button>`).join('')}</div>`;
+  return `<div class="card"><h3>${T('set')}</h3>
+  <span class="lb">${T('lang')}</span>${ch(['lo','en','zh'],S.lang,'lang',k=>({lo:'ລາວ',en:'English',zh:'中文'}[k]))}
+  <span class="lb">${T('dcur')}</span>${ch(CUR,S.cur,'dcur',k=>SYM[k]+' '+k)}
+  <span class="lb">${T('rate')}</span>
+  <div class="rt"><span>1 USD =</span><input type="number" inputmode="decimal" data-rate="LAK" value="${S.rates.LAK}"><span>LAK</span></div>
+  <div class="rt"><span>1 USD =</span><input type="number" inputmode="decimal" data-rate="THB" value="${S.rates.THB}"><span>THB</span></div></div>
+  <div class="card"><button class="link" id="csv">${T('csv')}</button><button class="link" id="clr">${T('clr')}</button><div style="color:var(--mut);font-size:12px">${T('ft')}</div></div>`}
+function render(){
+  document.documentElement.lang=S.lang;months();$('#ttl').textContent=T(S.tab);
+  $('#main').innerHTML=S.tab==='home'?home():S.tab==='more'?more():typePage(S.tab);
+  $('#nav').innerHTML=TABS.map(x=>`<button data-tab="${x[0]}" class="${S.tab===x[0]?'on':''}"><span>${x[1]}</span>${T(x[0])}</button>`).join('');
+  $('#fab').style.display=S.tab==='more'?'none':'block'}
+function openSheet(type,cat,goal){
+  const f={type,cat:cat||CAT[type][0][0],cur:S.cur,goal};
+  const bg=document.createElement('div');bg.className='sheet-bg';
+  const draw=()=>{bg.innerHTML=`<div class="sheet"><div class="seg">${TY.map(t=>`<button data-t="${t}" class="${f.type===t?'on':''}">${T(t)}</button>`).join('')}</div>
+  <span class="lb">${T('amt')}</span><input id="amt" type="number" inputmode="decimal" min="0" step="any" placeholder="0" value="${f.amt||''}">
+  <span class="lb">${T('cur')}</span><div class="chips">${CUR.map(c=>`<button data-cu="${c}" class="${f.cur===c?'on':''}">${SYM[c]} ${c}</button>`).join('')}</div>
+  <span class="lb">${T('cat')}</span><div class="chips">${CAT[f.type].map(c=>`<button data-c="${c[0]}" class="${f.cat===c[0]?'on':''}">${c[1]} ${cn(c[0])}</button>`).join('')}</div>
+  ${f.type==='sav'&&goals.length?`<span class="lb">${T('glink')}</span><div class="chips"><button data-g="0" class="${!f.goal?'on':''}">${T('gnone')}</button>${goals.map(g=>`<button data-g="${g.id}" class="${f.goal===g.id?'on':''}">🎯 ${esc(g.name)}</button>`).join('')}</div>`:''}<span class="lb">${T('date')}</span><input id="dt" type="date" value="${f.date||today()}">
+  <span class="lb">${T('note')}</span><input id="nt" type="text" maxlength="60" value="${esc(f.note||'')}">
+  <button class="save" id="sv">${T('save')}</button></div>`};
+  const keep=()=>{f.amt=$('#amt').value;f.date=$('#dt').value;f.note=$('#nt').value};
+  draw();$('#app').appendChild(bg);
+  bg.onclick=e=>{if(e.target===bg){bg.remove();return}
+    const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.t){keep();f.type=b.dataset.t;f.cat=CAT[f.type][0][0];draw()}
+    else if(b.dataset.cu){keep();f.cur=b.dataset.cu;draw()}
+    else if(b.dataset.c){keep();f.cat=b.dataset.c;draw()}
+    else if(b.dataset.g){keep();f.goal=+b.dataset.g||0;draw()}
+    else if(b.id==='sv'){keep();const a=parseFloat(f.amt);if(!(a>0)){$('#amt').focus();return}
+      tx.push({id:Date.now(),type:f.type,cat:f.cat,cur:f.cur,goal:f.type==='sav'?(f.goal||0):0,amt:a,date:f.date||today(),note:(f.note||'').trim()});sv('tx',tx);S.mon=ym(f.date||today());bg.remove();render()}}}
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.tab){S.tab=d.tab;render()}
+  else if(d.view){S.view=d.view;render()}
+  else if(b.id==='gadd')openGoal()
+  else if(d.gsave)openSheet('sav',null,+d.gsave)
+  else if(d.gdel){goals=goals.filter(g=>g.id!=d.gdel);sv('goals',goals);render()}
+  else if(d.quick)openSheet(S.view,d.quick)
+  else if(d.del){tx=tx.filter(x=>x.id!=d.del);sv('tx',tx);render()}
+  else if(d.lang){S.lang=d.lang;saveCfg();render()}
+  else if(d.dcur){S.cur=d.dcur;saveCfg();render()}
+  else if(b.id==='fab')openSheet(TY.includes(S.tab)?S.tab:S.view)
+  else if(b.id==='clr'){if(confirm(T('cfm'))){tx=[];goals=[];vals={};sv('tx',tx);sv('goals',goals);sv('vals',vals);render()}}
+  else if(b.id==='csv'){const csv='date,type,category,currency,amount,note\n'+tx.map(x=>[x.date,x.type,x.cat,x.cur,x.amt,'"'+x.note.replace(/"/g,'""')+'"'].join(',')).join('\n');
+    const w=window.open('','_blank');if(w)w.document.write('<pre>'+esc(csv)+'</pre>')}});
+document.addEventListener('change',e=>{const k=e.target.dataset.val;if(k){const v=parseFloat(e.target.value);if(v>=0){vals[k]=v/R(S.cur);sv('vals',vals);render()}return}const r=e.target.dataset.rate;if(r){const v=parseFloat(e.target.value);if(v>0){S.rates[r]=v;saveCfg()}}});
+$('#mon').onchange=e=>{S.mon=e.target.value;render()};
+render();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
