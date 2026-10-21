@@ -68,6 +68,17 @@ input,.sheet select{width:100%;padding:11px;border:1px solid var(--line);border-
 .link{background:none;border:1px solid var(--line);color:var(--tx);padding:11px;border-radius:10px;font:inherit;width:100%;margin-bottom:8px;cursor:pointer;text-align:left}
 .rt{display:flex;align-items:center;gap:8px;margin-top:6px}.rt span{width:70px;font-size:13px}
 .pb{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:6px 0}.pb i{display:block;height:100%;background:var(--sav);border-radius:6px}.g{padding:10px 0;border-bottom:1px solid var(--line)}.g:last-child{border:0}.g .h{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:14px}.g small{color:var(--mut)}.add{margin:10px 0 0}.gb{border:0;background:none;color:var(--mut);cursor:pointer;font-size:16px}
+.pro{position:absolute;inset:0;z-index:6;background:var(--bg);overflow-y:auto;padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+.pro .top{background:var(--yel);color:#1f2328;padding:calc(18px + env(safe-area-inset-top,0px)) 20px 28px;text-align:center;border-radius:0 0 28px 28px;position:relative}
+.pro .x{position:absolute;right:14px;top:calc(12px + env(safe-area-inset-top,0px));border:0;background:rgba(0,0,0,.12);width:32px;height:32px;border-radius:50%;font-size:15px;cursor:pointer;color:#1f2328}
+.pro .crown{font-size:42px}.pro h2{margin:6px 0 4px;font-size:22px}.pro .top p{margin:0;font-size:14px}
+.cmp{width:100%;border-collapse:collapse;font-size:14px}.cmp th{font-size:12px;color:var(--mut);font-weight:600}.cmp td,.cmp th{padding:9px 4px;border-bottom:1px solid var(--line);text-align:center}.cmp td:first-child,.cmp th:first-child{text-align:left}.cmp td:last-child{color:var(--inc);font-weight:700}
+.plans{display:flex;gap:8px;margin-top:20px}
+.plan{flex:1;border:2px solid var(--line);background:var(--card);color:var(--tx);border-radius:14px;padding:14px 4px 10px;font:inherit;cursor:pointer;position:relative;text-align:center}
+.plan.on{border-color:var(--yel)}.plan b{display:block;font-size:15px;margin:4px 0 2px;word-break:break-all}.plan small{color:var(--mut);font-size:11px;display:block}
+.tag{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--exp);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;white-space:nowrap}
+.demo{font-size:11px;color:var(--mut);text-align:center;margin-top:12px;line-height:1.6}
+.probn{background:linear-gradient(135deg,#facc15,#f59e0b);color:#1f2328;border:0;width:100%;border-radius:16px;padding:16px;font:inherit;font-weight:700;text-align:left;cursor:pointer;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
 </style>
 </head>
 <body>
@@ -84,7 +95,7 @@ empty:['ຍັງບໍ່ມີລາຍການ — ກົດ + ເພື່�
 amt:['ຈຳນວນເງິນ','Amount','金额'],cur:['ສະກຸນເງິນ','Currency','币种'],cat:['ໝວດ','Category','类别'],date:['ວັນທີ','Date','日期'],note:['ໝາຍເຫດ','Note','备注'],save:['ບັນທຶກ','Save','保存'],
 lang:['ພາສາ','Language','语言'],dcur:['ສະກຸນເງິນທີ່ສະແດງ','Display currency','显示币种'],rate:['ອັດຕາແລກປ່ຽນ (ຕໍ່ 1 USD)','Exchange rate (per 1 USD)','汇率（每 1 美元）'],
 csv:['⬇ ສົ່ງອອກ CSV','⬇ Export CSV','⬇ 导出 CSV'],clr:['🗑 ລ້າງຂໍ້ມູນທັງໝົດ','🗑 Clear all data','🗑 清除所有数据'],cfm:['ລຶບຂໍ້ມູນທັງໝົດ?','Delete all data?','删除所有数据？'],
-ft:['ຂໍ້ມູນເກັບໃນເບຣາວ໌ເຊີນີ້ເທົ່ານັ້ນ','Data is stored in this browser only','数据仅保存在本浏览器中'],set:['ຕັ້ງຄ່າ','Settings','设置'],goals:['ເປົ້າໝາຍເກັບອອມ','Savings goals','储蓄目标'],gname:['ຊື່ເປົ້າໝາຍ','Goal name','目标名称'],gtar:['ຈຳນວນເປົ້າໝາຍ','Target amount','目标金额'],gadd:['+ ເພີ່ມເປົ້າໝາຍ','+ Add goal','+ 添加目标'],glink:['ເຂົ້າເປົ້າໝາຍ','Toward goal','存入目标'],gnone:['ບໍ່ເລືອກ','None','不选'],gdone:['ສຳເລັດແລ້ວ 🎉','Reached 🎉','已达成 🎉'],port:['ພອດການລົງທຶນ','Portfolio','投资组合'],cost:['ເງິນລົງທຶນ','Invested','投入'],val:['ມູນຄ່າປັດຈຸບັນ','Current value','当前价值'],pl:['ກຳໄລ/ຂາດທຶນ','Gain/Loss','盈亏']};
+ft:['ຂໍ້ມູນເກັບໃນເບຣາວ໌ເຊີນີ້ເທົ່ານັ້ນ','Data is stored in this browser only','数据仅保存在本浏览器中'],set:['ຕັ້ງຄ່າ','Settings','设置'],goals:['ເປົ້າໝາຍເກັບອອມ','Savings goals','储蓄目标'],gname:['ຊື່ເປົ້າໝາຍ','Goal name','目标名称'],gtar:['ຈຳນວນເປົ້າໝາຍ','Target amount','目标金额'],gadd:['+ ເພີ່ມເປົ້າໝາຍ','+ Add goal','+ 添加目标'],glink:['ເຂົ້າເປົ້າໝາຍ','Toward goal','存入目标'],gnone:['ບໍ່ເລືອກ','None','不选'],gdone:['ສຳເລັດແລ້ວ 🎉','Reached 🎉','已达成 🎉'],port:['ພອດການລົງທຶນ','Portfolio','投资组合'],cost:['ເງິນລົງທຶນ','Invested','投入'],val:['ມູນຄ່າປັດຈຸບັນ','Current value','当前价值'],pl:['ກຳໄລ/ຂາດທຶນ','Gain/Loss','盈亏'],pro:['ອັບເກຣດເປັນ Pro','Upgrade to Pro','升级到 Pro'],protitle:['ປົດລ໋ອກທຸກຟັງຊັນ','Unlock everything','解锁全部功能'],prosub:['ເກັບອອມໃຫ້ເຖິງເປົ້າໝາຍ ດ້ວຍເຄື່ອງມືຄົບຊຸດ','Reach your goals with the full toolkit','用完整工具实现储蓄目标'],free:['ຟຣີ','Free','免费'],f0:['ບັນທຶກລາຍການ · 3 ສະກຸນ · 3 ພາສາ','Tracking · 3 currencies · 3 languages','记账 · 3 种货币 · 3 种语言'],f1:['ເປົ້າໝາຍເກັບອອມ','Savings goals','储蓄目标'],f2:['ງົບປະມານແຕ່ລະໝວດ','Budgets per category','分类预算'],f3:['ລາຍງານ PDF','PDF reports','PDF 报告'],f4:['ຊິ້ງຂໍ້ມູນ & ສຳຮອງ Cloud','Cloud sync & backup','云同步与备份'],f5:['ໃຊ້ຮ່ວມກັບຄອບຄົວ','Family sharing','家庭共享'],pm:['ລາຍເດືອນ','Monthly','按月'],py:['ລາຍປີ','Yearly','按年'],plife:['ຕະຫຼອດຊີບ','Lifetime','终身'],pmo:['/ເດືອນ','/month','/月'],pyr:['/ປີ','/year','/年'],pone:['ຈ່າຍຄັ້ງດຽວ','One-time','一次付费'],best:['ຄຸ້ມສຸດ','Best value','最划算'],trial:['ເລີ່ມທົດລອງຟຣີ 7 ວັນ','Start 7-day free trial','开始 7 天免费试用'],proff:['ປິດ Pro (ທົດສອບ)','Turn off Pro (demo)','关闭 Pro（演示）'],cancel:['ຍົກເລີກໄດ້ທຸກເວລາ · ຟຣີ 7 ວັນ ແລ້ວຈຶ່ງຄິດເງິນ','Cancel anytime · 7 days free, then billed','随时取消 · 免费 7 天后计费'],demo:['ໜ້າຕົວຢ່າງ: ຍັງບໍ່ໄດ້ເຊື່ອມລະບົບຊຳລະເງິນຈິງ','Design preview: real payments are not connected','设计预览：尚未接入真实支付'],lim:['ຮຸ່ນຟຣີຕັ້ງໄດ້ 1 ເປົ້າໝາຍ — ອັບເກຣດເພື່ອເພີ່ມຕື່ມ','Free allows 1 goal — upgrade for more','免费版只能设 1 个目标，升级后可添加更多']};
 const N={salary:['ເງິນເດືອນ','Salary','工资'],biz:['ທຸລະກິດ','Business','生意'],oth:['ອື່ນໆ','Other','其他'],food:['ອາຫານ','Food','餐饮'],trans:['ເດີນທາງ','Transport','交通'],home:['ຄ່າເຮືອນ','Housing','住房'],shop:['ຊື້ເຄື່ອງ','Shopping','购物'],
 emg:['ເງິນສຸກເສີນ','Emergency fund','应急基金'],goal:['ເປົ້າໝາຍ','Goal','目标储蓄'],bank:['ຝາກທະນາຄານ','Bank deposit','银行存款'],stock:['ຮຸ້ນ','Stocks','股票'],gold:['ຄຳ','Gold','黄金'],crypto:['ຄຣິບໂຕ','Crypto','加密货币'],land:['ອະສັງຫາ','Property','房产']};
 const CAT={inc:[['salary','💼','#2dd4bf'],['biz','🏢','#0f9488'],['oth','📦','#5eead4']],
@@ -102,8 +113,8 @@ let tx=ld('tx',[]).map(x=>({cur:'USD',...x}));
 const cfg=ld('cfg',{});
 let goals=ld('goals',[]),vals=ld('vals',{});
 const today=()=>new Date().toISOString().slice(0,10),ym=d=>d.slice(0,7);
-let S={tab:'home',view:'inc',mon:ym(today()),lang:cfg.lang||'lo',cur:cfg.cur||'LAK',rates:cfg.rates||{LAK:21500,THB:35}};
-const saveCfg=()=>sv('cfg',{lang:S.lang,cur:S.cur,rates:S.rates});
+let S={tab:'home',view:'inc',mon:ym(today()),lang:cfg.lang||'lo',pro:!!cfg.pro,cur:cfg.cur||'LAK',rates:cfg.rates||{LAK:21500,THB:35}};
+const saveCfg=()=>sv('cfg',{pro:S.pro,lang:S.lang,cur:S.cur,rates:S.rates});
 const L=()=>({lo:0,en:1,zh:2}[S.lang]),T=k=>U[k][L()],cn=id=>N[id][L()];
 const R=c=>c==='USD'?1:(+S.rates[c]||1);
 const fmt=(n,c)=>SYM[c]+(c==='LAK'?Math.round(n):Math.round(n*100)/100).toLocaleString('en-US');
@@ -146,7 +157,16 @@ function portCard(){const inv=tx.filter(x=>x.type==='inv');let C=0,V=0;
   return `<div class="g"><div class="h"><b>${k[1]} ${cn(k[0])}</b><small>${T('cost')}: ${D(cs)}</small></div><div class="rt"><span style="width:auto">${T('val')}</span><input type="number" inputmode="decimal" data-val="${k[0]}" value="${Math.round(v*R(S.cur)*100)/100}"></div><small style="color:${p>=0?'var(--inc)':'var(--exp)'}">${p>=0?'+':''}${D(p)} (${cs?(p/cs*100).toFixed(1):0}%)</small></div>`}).join('');
  const P=V-C;
  return `<div class="card"><h3>${T('port')}</h3>${rows||`<div class="empty">${T('empty')}</div>`}<div class="g"><div class="h"><b>${T('pl')}</b><b style="color:${P>=0?'var(--inc)':'var(--exp)'}">${P>=0?'+':''}${D(P)} (${C?(P/C*100).toFixed(1):0}%)</b></div><small>${T('cost')} ${D(C)} → ${T('val')} ${D(V)}</small></div></div>`}
-function openGoal(){const bg=document.createElement('div');bg.className='sheet-bg';let cu=S.cur;
+const PRICE={m:1.99,y:12.99,l:29.99};
+function openPro(why){let pl='y';const bg=document.createElement('div');bg.className='pro';
+ const rows=[['f0',1,1],['f1','1','∞'],['f2',0,1],['f3',0,1],['f4',0,1],['f5',0,1]],mk=v=>v===1?'✓':v===0?'✕':v;
+ const draw=()=>{bg.innerHTML=`<div class="top"><button class="x" data-px="1">✕</button><div class="crown">👑</div><h2>${T('protitle')}</h2><p>${T('prosub')}</p></div><div style="padding:16px">${why?`<div class="card" style="color:var(--exp);font-size:13px">${T('lim')}</div>`:''}<div class="card"><table class="cmp"><tr><th></th><th>${T('free')}</th><th>PRO</th></tr>${rows.map(r=>`<tr><td>${T(r[0])}</td><td>${mk(r[1])}</td><td>${mk(r[2])}</td></tr>`).join('')}</table></div><div class="plans">${[['m','pm','pmo'],['y','py','pyr'],['l','plife','pone']].map(p=>`<button class="plan ${pl===p[0]?'on':''}" data-pp="${p[0]}">${p[0]==='y'?`<span class="tag">${T('best')}</span>`:''}<small>${T(p[1])}</small><b>${D(PRICE[p[0]])}</b><small>${T(p[2])}</small></button>`).join('')}</div><button class="save" data-pgo="1">${S.pro?T('proff'):T('trial')}</button><div class="demo">${T('cancel')}<br>${T('demo')}</div></div>`};
+ draw();$('#app').appendChild(bg);
+ bg.onclick=e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.px)bg.remove();
+  else if(b.dataset.pp){pl=b.dataset.pp;draw()}
+  else if(b.dataset.pgo){S.pro=!S.pro;saveCfg();bg.remove();render()}}}
+function openGoal(){if(goals.length>=1&&!S.pro){openPro(1);return}const bg=document.createElement('div');bg.className='sheet-bg';let cu=S.cur;
  const draw=()=>{const n=$('#gn')?.value||'',t=$('#gt')?.value||'';bg.innerHTML=`<div class="sheet"><h3>${T('gadd')}</h3><span class="lb">${T('gname')}</span><input id="gn" type="text" maxlength="40" value="${esc(n)}"><span class="lb">${T('gtar')}</span><input id="gt" type="number" inputmode="decimal" min="0" value="${esc(t)}"><span class="lb">${T('cur')}</span><div class="chips">${CUR.map(c=>`<button data-cu="${c}" class="${cu===c?'on':''}">${SYM[c]} ${c}</button>`).join('')}</div><button class="save" id="gs">${T('save')}</button></div>`};
  draw();$('#app').appendChild(bg);
  bg.onclick=e=>{if(e.target===bg){bg.remove();return}const b=e.target.closest('button');if(!b)return;
@@ -154,7 +174,7 @@ function openGoal(){const bg=document.createElement('div');bg.className='sheet-b
   else if(b.id==='gs'){const n=$('#gn').value.trim(),t=parseFloat($('#gt').value);if(!n||!(t>0))return;goals.push({id:Date.now(),name:n,target:t,cur:cu});sv('goals',goals);bg.remove();render()}}}
 function more(){
   const ch=(arr,cur,attr,lab)=>`<div class="chips">${arr.map(k=>`<button data-${attr}="${k}" class="${cur===k?'on':''}">${lab(k)}</button>`).join('')}</div>`;
-  return `<div class="card"><h3>${T('set')}</h3>
+  return `<button class="probn" data-pro="1"><span>👑 ${T('pro')}${S.pro?' · PRO':''}</span><span>›</span></button><div class="card"><h3>${T('set')}</h3>
   <span class="lb">${T('lang')}</span>${ch(['lo','en','zh'],S.lang,'lang',k=>({lo:'ລາວ',en:'English',zh:'中文'}[k]))}
   <span class="lb">${T('dcur')}</span>${ch(CUR,S.cur,'dcur',k=>SYM[k]+' '+k)}
   <span class="lb">${T('rate')}</span>
@@ -189,6 +209,7 @@ function openSheet(type,cat,goal){
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
   if(d.tab){S.tab=d.tab;render()}
   else if(d.view){S.view=d.view;render()}
+  else if(d.pro)openPro()
   else if(b.id==='gadd')openGoal()
   else if(d.gsave)openSheet('sav',null,+d.gsave)
   else if(d.gdel){goals=goals.filter(g=>g.id!=d.gdel);sv('goals',goals);render()}
